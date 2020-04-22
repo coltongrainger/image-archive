@@ -180,6 +180,10 @@ class Author(Base):
     email = Column(String(255))
     organization = Column(String(255))
 
+    def __repr__(self):
+        return f"Author(name='{self.name}', email='{self.email}', "\
+                + f"organization='{self.organization}')"
+
 class Document(Base):
 
     """Abstraction for documents as linearly ordered collections of images"""
@@ -190,10 +194,10 @@ class Document(Base):
 
     document_id = Column(Integer(), primary_key=True)
 
-    accession_datetime = Column(DateTime(), default=datetime.now)
-    license = Column(String(55), default='CC-0 Public Domain')
     start_date = Column(Date())
     end_date = Column(Date())
+    accession_datetime = Column(DateTime(), default=datetime.now)
+    license = Column(String(55), default='CC-0 Public Domain')
 
     # add related tables and objects
     author_id = Column(Integer(), ForeignKey('author.author_id'))
@@ -201,6 +205,13 @@ class Document(Base):
     # add a relationship directive to provide a property that can be used to
     # access the document's author (this establishes a one-to-many relationship)
     author = relationship('Author', backref=backref('documents', order_by=start_date))
+
+    def __repr__(self):
+        return f"Document(author_id='{self.author_id}', "\
+                + f"start_date='{self.start_date}', "\
+                + f"end_date='{self.end_date}', "\
+                + f"accession_datetime='{self.accession_datetime}', "\
+                + f"license='{self.license}')"
 
 class Image(Base):
 
@@ -217,9 +228,17 @@ class Image(Base):
     file_media_type = Column(String(10))                # e.g., 'image/tiff'
     file_creation_datetime = Column(DateTime())
     file_modification_datetime = Column(DateTime())
-    file_original_filename = Column(String(255))
+    file_original_name = Column(String(255))
 
     document_id = Column(Integer(), ForeignKey('document.document_id'))
     # this establishes a one-to-many relationship to access the image's document
     document = relationship("Document", 
             backref=backref('images', order_by=uuid))
+
+    def __repr__(self):
+        return f"Image(uuid='{self.uuid}', document_id='{self.document_id}', "\
+            + f"file_size='{self.file_size}', "\
+            + f"file_media_type='{self.file_media_type}', "\
+            + f"file_creation_datetime='{self.file_creation_datetime}', "\
+            + f"file_modification_datetime='{self.file_modification_datetime}', "\
+            + f"file_original_name='{self.file_original_name}')"
