@@ -14,9 +14,7 @@ import tarfile
 from datetime import datetime
 from pathlib import Path
 
-##
-
-class Directory(object):
+class Directory:
 
     """Abstraction for file operations in a directory"""
 
@@ -29,10 +27,13 @@ class Directory(object):
         self.abspath = abspath
         Path(abspath).mkdir(parents=True, exist_ok=True)
 
+    @classmethod
+    def from_relpath(cls, relpath):
+        """Initializes the Directory from a relative path."""
+        return cls(abspath=os.path.abspath(relpath))
+
     def __repr__(self):
         return f"Directory(abspath='{self.abspath}')"
-
-##
 
     def empty(self):
         """Empties the Directory."""
@@ -46,23 +47,38 @@ class Directory(object):
             except Exception as e:
                 print(f'Failed to delete {file_path}. Reason: {e}')
 
-    def create_tar_archive(self, outdir=self):
+    def create_tar_archive(self, outdir=None):
         """Creates a gzipped tar archive of the Directory's contents, in the
-        Directory itself, unless 'outdir' is specified.
+        Directory itself, unless 'outdir' is specified. I recommend leaving
+        outdir as None. In good OO-design, objects should be responsible for
+        mutating themselves.
 
-        :outdir: (optional) a different instance of a Directory
+        :outdir: (optional) a Directory instance, not recommended
         :returns: path to gzipped tar archive
 
         """
-        # for the tar archive filename, we need
-        # the local datetime formatted as '2020-04-21T132052'
-         = datetime.now().strftime('%FT%H%M%S') 
-        filename = os.path.join(outdir.abspath, date
-        with tarfile.open(#, "w:gz") as tar:
-            for name in glob.glob('*.txt'):
-                print(f'Adding {name} to sample.tar archive.')
-                tar.add(name)
+        # for the tar archive filename, we need a timestamp 
+        timestamp = datetime.now().strftime('%F-%H%M%S') # e.g., '2020-04-21-132052'
+        directory_basename = os.path.basename(self.abspath)
+        tar_archive_name = f"{timestamp}-{directory_basename}.tar.gz"
+        try:
+            tar_archive_abspath = os.path.join(outdir.abspath, tar_archive_name)
+        except AttributeError:
+            tar_archive_abspath = os.path.join(self.abspath, tar_archive_name)
+        with tarfile.open(tar_archive_abspath, mode="w:gz") as tar:
+            print(f"Creating tar archive {tar_archive_abspath} ...")
+            tar.add(self.abspath, arcname=f"{timestamp}-{directory_basename}")
+        return tar_archive_abspath
 
+    def remove_tar_archive(self):
+        """
+        Removes any gzipped tar archives contained in the Directory, if they exist.
+        """
+        for item in os.listdir(self.abspath):
+            if item.endswith(".tar.gz"):
+                tar_archive_abspath = os.path.join(self.abspath, item)
+                print(f"Removing tar archive {tar_archive_abspath} ...")
+                os.remove(tar_archive_abspath)
 
 ##
 
