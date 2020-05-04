@@ -9,7 +9,10 @@ Configuration structure
 """
 
 import configparser
+
 from sqlalchemy import create_engine
+
+from directories import IngestDirectory, DataDirectory, OutputDirectory
 
 def configure(config_file='../docs/default_config.ini'):
     """
@@ -35,7 +38,7 @@ def configure(config_file='../docs/default_config.ini'):
     configuration.read(config_file)
     return configuration
 
-def setup_database_engine(config_file='../docs/default_conf.ini'):
+def setup_database_engine(config_file='../docs/default_config.ini'):
     """
     Wrapper around sqlalchemy.create_engine() that obtains a database URL
     from the specified config_file.
@@ -63,16 +66,17 @@ def setup_database_engine(config_file='../docs/default_conf.ini'):
 
 ##
 
-from directories import IngestDirectory, DataDirectory, OutputDirectory
-def setup_directories(config_file='../docs/default_conf.ini'):
+def setup_directories(config_file='../docs/default_config.ini'):
     """
     Creates three working directories at paths specified in config_file (if they
     fail to exit) for binary image files by instanstiating three corresponding
     Directory objects.
 
     :config_file: path to configuration file
-    :returns: (IngestDirectory(), DataDirectory(), OutputDirectory())
+    :returns: tuple(IngestDirectory(), DataDirectory(), OutputDirectory())
     
     """
-    conf = configure(config_file)
-
+    params = configure(config_file)['directories']
+    return (IngestDirectory(abspath=params['ingest_dir']),
+            DataDirectory(abspath=params['data_dir']),
+            OutputDirectory(abspath=params['output_dir']))
