@@ -13,21 +13,9 @@ import shutil
 import tarfile
 from datetime import datetime
 from pathlib import Path
+from os.path import expandvars
 from distutils.dir_util import copy_tree
 
-def remove_content(absolute_path):
-    try:
-        for filename in os.listdir(absolute_path):
-            file_path = os.path.join(absolute_path, filename)
-            try:
-                if os.path.isfile(file_path) or os.path.islink(file_path):
-                    os.unlink(file_path)
-                elif os.path.isdir(file_path):
-                    shutil.rmtree(file_path)
-            except Exception as e:
-                print(f'Failed to delete {file_path}. Reason: {e}')
-    except NotADirectoryError as e:
-        os.unlink(absolute_path)
 
 class Directory:
 
@@ -39,11 +27,26 @@ class Directory:
         :abspath: str, absolute path to directory
 
         """
-        self.abspath = abspath
-        Path(abspath).mkdir(parents=True, exist_ok=True)
+        self.abspath = expandvars(abspath)
+        Path(self.abspath).mkdir(parents=True, exist_ok=True)
 
     def __repr__(self):
         return f"Directory(abspath='{self.abspath}')"
+
+    @staticmethod
+    def remove_content(absolute_path):
+        try:
+            for filename in os.listdir(absolute_path):
+                file_path = os.path.join(absolute_path, filename)
+                try:
+                    if os.path.isfile(file_path) or os.path.islink(file_path):
+                        os.unlink(file_path)
+                    elif os.path.isdir(file_path):
+                        shutil.rmtree(file_path)
+                except Exception as e:
+                    print(f'Failed to delete {file_path}. Reason: {e}')
+        except NotADirectoryError as e:
+            os.unlink(absolute_path)
 
     def empty_some(self, content=[]):
         """
@@ -55,14 +58,14 @@ class Directory:
         """
         try:
             for relative_path in content:
-                remove_content(os.path.join(self.abspath, relative_path))
+                self.remove_content(os.path.join(self.abspath, relative_path))
         except TypeError:
             raise ValueError(f'Argument {content} is not iterable')
 
     def empty_all(self):
         """Empties all content from the Directory."""
         print(f'Removing all content under {self.abspath} ...')
-        remove_content(self.abspath)
+        self.remove_content(self.abspath)
 
     def fetch_all_from(self, src_directory):
         """
