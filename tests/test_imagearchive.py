@@ -4,11 +4,10 @@
 # Colton Grainger 
 # CC-0 Public Domain
 
-"""
-2020-04-22 acceptance test
-"""
+from context import imagearchive
+from imagearchive.core import Base, Author
 
-import imagearchive as ia
+##
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -26,12 +25,12 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 # Base is a class defined in the imagearchive module
-ia.Base.metadata.create_all(engine)
+Base.metadata.create_all(engine)
 
 ##
 
 # creating an instance of the Author class
-colton = ia.Author(name='Colton Grainger', email='colton.grainger@gmail.com', \
+colton = Author(name='Colton Grainger', email='colton.grainger@gmail.com', \
                 organization='coltongrainger.com')
 
 # adding the instance to the session
@@ -44,7 +43,6 @@ session.commit()
 # the database. It also updates 'colton' with the primary key of the record in
 # the database. We can see that by doing the following:
 print('colton.author_id:', colton.author_id)
-
 
 ##
 

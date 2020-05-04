@@ -9,7 +9,7 @@ with open('LICENSE') as f:
 setup(
     name='imagearchive',
     version='0.1.0',
-    description='Personal image archive',
+    description='Image Archive',
     long_description=readme,
     author='Colton Grainger',
     author_email='colton.grainger@gmail.com',

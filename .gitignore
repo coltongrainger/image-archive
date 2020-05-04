@@ -1,90 +1,140 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# working examples
+*_files
 
-# C extensions
-*.so
+# mysql configuration
+mysql_args
 
-# Distribution / packaging
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
+# metadata files 
+*.csv
+*.json
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*,cover
-.hypothesis/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-# IPython Notebook
+# Notebook Checkpoints
 .ipynb_checkpoints
 
-# pyenv
-.python-version
+# JPEG
+*.jpg
+*.jpeg
+*.jpe
+*.jif
+*.jfif
+*.jfi
 
-# celery beat schedule file
-celerybeat-schedule
+# JPEG 2000
+*.jp2
+*.j2k
+*.jpf
+*.jpx
+*.jpm
+*.mj2
 
-# dotenv
-.env
+# JPEG XR
+*.jxr
+*.hdp
+*.wdp
 
-# virtualenv
-.venv/
-venv/
-ENV/
+# Graphics Interchange Format
+*.gif
 
-# Spyder project settings
-.spyderproject
+# RAW
+*.raw
 
-# Rope project settings
-.ropeproject
+# Web P
+*.webp
+
+# Portable Network Graphics
+*.png
+
+# Animated Portable Network Graphics
+*.apng
+
+# Multiple-image Network Graphics
+*.mng
+
+# Tagged Image File Format
+*.tiff
+*.tif
+
+# Scalable Vector Graphics
+*.svg
+*.svgz
+
+# Portable Document Format
+*.pdf
+
+# X BitMap
+*.xbm
+
+# BMP
+*.bmp
+*.dib
+
+# ICO
+*.ico
+
+# 3D Images
+*.3dm
+*.max
+
+# JPEG
+*.JPG
+*.JPEG
+*.JPE
+*.JIF
+*.JFIF
+*.JFI
+
+# JPEG 2000
+*.JP2
+*.J2K
+*.JPF
+*.JPX
+*.JPM
+*.MJ2
+
+# JPEG XR
+*.JXR
+*.HDP
+*.WDP
+
+# GRAPHICS INTERCHANGE FORMAT
+*.GIF
+
+# RAW
+*.RAW
+
+# WEB P
+*.WEBP
+
+# PORTABLE NETWORK GRAPHICS
+*.PNG
+
+# ANIMATED PORTABLE NETWORK GRAPHICS
+*.APNG
+
+# MULTIPLE-IMAGE NETWORK GRAPHICS
+*.MNG
+
+# TAGGED IMAGE FILE FORMAT
+*.TIFF
+*.TIF
+
+# SCALABLE VECTOR GRAPHICS
+*.SVG
+*.SVGZ
+
+# PORTABLE DOCUMENT FORMAT
+*.PDF
+
+# X BITMAP
+*.XBM
+
+# BMP
+*.BMP
+*.DIB
+
+# ICO
+*.ICO
+
+# 3D IMAGES
+*.3DM
+*.MAX
